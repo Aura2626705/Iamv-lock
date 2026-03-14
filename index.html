@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura iot-iamv | Secure Access</title>
+    <style>
+        :root {
+            --bg-color: #000b18;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent-blue: #00a2ff;
+            --text-white: #ffffff;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            height: 100%; width: 100%;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
+        }
+
+        /* 1. Splash Screen */
+        #splash-screen {
+            position: fixed;
+            width: 100%; height: 100vh;
+            background: radial-gradient(circle, #001a33 0%, #000b18 100%);
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 1000;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-text {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-white);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 162, 255, 0.5);
+            animation: fadeInOut 2s infinite alternate;
+        }
+
+        .loader-wrap {
+            width: 280px; height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px; overflow: hidden;
+        }
+
+        .loader-fill {
+            width: 0%; height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+            background-size: 200% 100%;
+            animation: loading 8s linear forwards, shine 2s infinite;
+        }
+
+        @keyframes loading { to { width: 100%; } }
+        @keyframes shine { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes fadeInOut { from { opacity: 0.6; } to { opacity: 1; } }
+
+        /* 2. Modern Password Screen */
+        #login-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            z-index: 500;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 50px 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 350px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-card h2 {
+            color: var(--text-white);
+            font-weight: 300;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        input[type="password"]:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(0, 162, 255, 0.3);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(0, 162, 255, 0.2);
+        }
+
+        .login-btn:hover {
+            background: #008be0;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(0, 162, 255, 0.4);
+        }
+
+        #error-msg {
+            color: #ff4d4d;
+            font-size: 13px;
+            margin-top: 20px;
+            display: none;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen">
+        <div class="logo-text">Aura iot-IBBAGMUWA MODEl SCHOOL</div>
+        <div class="loader-wrap">
+            <div class="loader-fill"></div>
+        </div>
+    </div>
+
+    <div id="login-screen">
+        <div class="glass-card">
+            <h2>SECURE ACCESS</h2>
+            <div class="input-group">
+                <input type="password" id="passInput" placeholder="Enter PIN">
+            </div>
+            <button class="login-btn" onclick="checkPassword()">UNLOCK</button>
+            <p id="error-msg">⚠️ Access Denied. Try Again.</p>
+        </div>
+    </div>
+
+    <script>
+        // Splash Screen Timer
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+                document.getElementById('login-screen').style.display = 'flex';
+            }, 1000);
+        }, 8000);
+
+        // Password Verification
+        function checkPassword() {
+            const pass = document.getElementById('passInput').value;
+            if (pass === "Aura-2626") {
+                window.location.href = "        https://codepen.io/Aura-10/full/KwgPzLQ  ";
+            } else {
+                const err = document.getElementById('error-msg');
+                err.style.display = 'block';
+                document.getElementById('passInput').value = "";
+                // Shaking effect for error
+                const card = document.querySelector('.glass-card');
+                card.style.animation = 'none';
+                card.offsetHeight; 
+                card.style.animation = 'shake 0.4s ease-in-out';
+            }
+        }
+
+        // Add CSS Shake Animation
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
